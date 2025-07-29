@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+"${TERRATEAM_TF_CMD}" show -json "${TERRATEAM_PLAN_FILE}" > "${TERRATEAM_PLAN_FILE}".json
+
+if [ $# -eq 0 ]; then
+  checkov --quiet --compact -f "${TERRATEAM_PLAN_FILE}".json
+else
+  checkov "$@" -f "${TERRATEAM_PLAN_FILE}".json
+fi

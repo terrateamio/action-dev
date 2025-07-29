@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+if [[ "$TERRATEAM_ENGINE_NAME" == "cdktf" ]]; then
+    cd cdktf.out/stacks/"$TERRATEAM_WORKSPACE"
+fi
+
+"${TERRATEAM_TF_CMD}" show -json "${TERRATEAM_PLAN_FILE}" > "${TERRATEAM_PLAN_FILE}.json"
+conftest test --ignore .git "${TERRATEAM_PLAN_FILE}.json"
